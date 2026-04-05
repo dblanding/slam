@@ -11,8 +11,8 @@ pose_data_file = "Scan_Pose_Data/pose_data.npz"
 scan_data_file = "Scan_Pose_Data/scan_data.npz"
 
 # Output filenames
-slam_map_file = "Scan_Pose_Data/my_slam_map.png"
-save_ogm_file = "Scan_Pose_Data/occupancy_map.npy"
+slam_map_file = "maps/raw_map.png"
+save_ogm_file = "maps/raw_map.npz"
 save_opt_poses_file = "Scan_Pose_Data/optimized_poses.csv"
 
 @dataclass
@@ -323,6 +323,28 @@ class OccupancyGridMap:
         odds = np.exp(self.log_odds)
         prob = odds / (1 + odds)
         return (prob * 100).astype(np.int8)
+
+    def save(self, filename: str):
+        """
+        Save occupancy grid to .npz file.
+        
+        Args:
+            filename: Path to save file (e.g., 'map.npz')
+        """
+        if not filename.endswith('.npz'):
+            filename = filename + '.npz'
+        
+        np.savez_compressed(
+            filename,
+            data=self.get_occupancy_grid(),
+            resolution=self.resolution,
+            origin_x=self.origin[0],
+            origin_y=self.origin[1],
+            width=self.width,
+            height=self.height
+        )
+        print(f"Saved: {filename} ({self.width}×{self.height}, {self.resolution}m resolution)")
+
 
 class BresenhamRayCast:
     """Bresenham's line algorithm for ray casting"""
@@ -722,7 +744,7 @@ def quick_start_template():
     plt.show()
     
     # 7. Optional: Save map to file
-    np.save(save_ogm_file, final_map)
+    slam.map.save(save_ogm_file)
     
     # 8. Optional: Save optimized poses
     with open(save_opt_poses_file, 'w') as f:
