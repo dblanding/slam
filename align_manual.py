@@ -13,6 +13,9 @@ with np.load('maps/raw_map.npz') as npz:
 ogm = OccupancyGridMap.from_probability_grid(prob_data, resolution, origin)
 ogm.get_info()
 
+# Save png image of raw map
+ogm.save_image('maps/unaligned_map.png')
+
 # Interactive alignment
 print("\n" + "="*60)
 print("INTERACTIVE ALIGNMENT")

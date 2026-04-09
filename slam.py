@@ -379,7 +379,7 @@ class GraphSLAM:
                  resolution: float = 0.05, origin: Tuple[float, float] = (-12.5, -12.5)):
         self.map = OccupancyGridMap(map_width, map_height, resolution, origin)
         self.pose_graph = PoseGraph()
-        self.icp = ICP(max_iterations=50, tolerance=1e-5, max_correspondence_distance=0.3)
+        self.icp = ICP(max_iterations=50, tolerance=1e-5, max_correspondence_distance=0.2)
         self.ray_caster = BresenhamRayCast()
         
         # Parameters

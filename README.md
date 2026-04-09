@@ -27,7 +27,7 @@ A Python implementation of 2D graph-based SLAM using:
 
 ## Add files to post-process raw OGM from SLAM
 * Tweak angle to square up alignment
-* Add inflatio
+* Add inflation
 ```
 slam_dev/
 ├── slam.py                   # SLAM code (includes OGM class)
